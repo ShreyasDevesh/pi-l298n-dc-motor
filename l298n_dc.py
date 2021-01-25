@@ -18,28 +18,32 @@ GPIO.output(in2,GPIO.LOW)
 p=GPIO.PWM(en,1000)
 
 p.start(25)
-print("\n")
+print()
 print("The default speed & direction of motor is LOW & Forward.....")
 print("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
-print("\n")    
+print()    
 
-while(1):
-
-    x=raw_input()
+def Forward():
+    GPIO.output(in1,GPIO.HIGH)
+    GPIO.output(in2,GPIO.LOW)
+    print("forward")
+    temp1 = 1
+    x ='z'
     
-    if x=='r':
-        print("run")
-        if(temp1==1):
-         GPIO.output(in1,GPIO.HIGH)
-         GPIO.output(in2,GPIO.LOW)
-         print("forward")
-         x='z'
-        else:
-         GPIO.output(in1,GPIO.LOW)
-         GPIO.output(in2,GPIO.HIGH)
-         print("backward")
-         x='z'
+def Backward():
+    GPIO.output(in1,GPIO.LOW)
+    GPIO.output(in2,GPIO.HIGH)
+    print("backward")
+    temp1=0
+    x ='z'
 
+def Motor_Controls(x):
+    if x =='r':
+        print("run")
+        if (temp1==1):
+         Forward()
+        else:
+         Backward()
 
     elif x=='s':
         print("stop")
@@ -48,18 +52,10 @@ while(1):
         x='z'
 
     elif x=='f':
-        print("forward")
-        GPIO.output(in1,GPIO.HIGH)
-        GPIO.output(in2,GPIO.LOW)
-        temp1=1
-        x='z'
+        Forward()
 
     elif x=='b':
-        print("backward")
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.HIGH)
-        temp1=0
-        x='z'
+        Backward()
 
     elif x=='l':
         print("low")
@@ -85,3 +81,11 @@ while(1):
     else:
         print("<<<  wrong data  >>>")
         print("please enter the defined data to continue.....")
+
+        
+        
+while True:
+    input = raw_input()
+    Motor_Controls(input)
+    
+    
